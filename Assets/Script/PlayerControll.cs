@@ -37,7 +37,6 @@ public class PlayerControll : MonoBehaviour {
             component.speedbullet = bullet_speed * -1;
             component.location = gun_point.position;
             component.shoot_by_player = shoot;
-            Rigidbody2D r = x.GetComponent<Rigidbody2D>();
         }
 
         if (Input.GetKeyDown(KeyCode.Z) && faceleft == false)
@@ -47,7 +46,6 @@ public class PlayerControll : MonoBehaviour {
             component.speedbullet = bullet_speed;
             component.location = gun_point.position;
             component.shoot_by_player = shoot;
-            Rigidbody2D rig = x.GetComponent<Rigidbody2D>();
         }
 
         grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);

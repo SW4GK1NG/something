@@ -100,7 +100,6 @@ public class Enemy : MonoBehaviour {
             Bullet component = x.GetComponent<Bullet>();
             component.speedbullet = bullet_speed * -1;
             component.location = gun_point.position;
-            Rigidbody2D rig = x.GetComponent<Rigidbody2D>();
         }
         else
         {
@@ -108,7 +107,6 @@ public class Enemy : MonoBehaviour {
             Bullet component = x.GetComponent<Bullet>();
             component.speedbullet = bullet_speed;
             component.location = gun_point.position;
-            Rigidbody2D rig = x.GetComponent<Rigidbody2D>();
         }
     }
 
