@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SPIN_ME_BABY : MonoBehaviour {
+public class Counter : MonoBehaviour {
 
-	public Vector3 spin;
+    public int kill;
 
 	// Use this for initialization
 	void Start () {
@@ -12,6 +12,6 @@ public class SPIN_ME_BABY : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate (spin);
+	
 	}
 }

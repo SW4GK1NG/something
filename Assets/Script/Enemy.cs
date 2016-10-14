@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
     public Transform gun_point;
     public float RayDistance;
     public float walk_speed;
+    public Counter counter;
     
     //For Debug
     public bool shooting;
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour {
     void Start () {
         gun_point = transform.Find("SANSDANCE");
         face_right = true;
+        flip_fin = true;
     }
 	
 	// Update is called once per frame
@@ -74,9 +76,6 @@ public class Enemy : MonoBehaviour {
             time_flip = 0;
             walk();
         }
-
-
-
     }
 
     void OnTriggerEnter2D (Collider2D coli)
@@ -86,6 +85,8 @@ public class Enemy : MonoBehaviour {
             hp--;
             if (hp <= 0)
             {
+                counter = GameObject.FindObjectOfType<Counter>();
+                counter.kill++;
                 Destroy(gameObject);
             }
         }
@@ -127,6 +128,7 @@ public class Enemy : MonoBehaviour {
 
     void walk()
     {
+        walking = true;
         if (face_right == false)
         {
             transform.position += Vector3.left * walk_speed * Time.deltaTime;
@@ -139,7 +141,11 @@ public class Enemy : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "wall")
+        if (coll.gameObject.tag == "wall" && flip_fin == true)
+        {
+            walkflip();
+        }
+        if (coll.gameObject.tag == "Enemy" && flip_fin == true)
         {
             walkflip();
         }
@@ -152,5 +158,4 @@ public class Enemy : MonoBehaviour {
         scale.x *= -1;
         transform.localScale = scale;
     }
-
 }
