@@ -18,9 +18,13 @@ public class PlayerControll : MonoBehaviour {
     public Transform gun_point;
     public GameObject Bullet;
     public Transform GroundCheck;
+    public AudioClip jump_sound;
+    public AudioClip shoot_sound;
+    public AudioClip die_sound;
+    public AudioClip get_hit;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		GroundCheck = transform.Find ("GroundCheck");
         gun_point = transform.Find ("GunPoint");
 	}
@@ -37,6 +41,7 @@ public class PlayerControll : MonoBehaviour {
             component.speedbullet = bullet_speed * -1;
             component.location = gun_point.position;
             component.shoot_by_player = shoot;
+            AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
         }
 
         if (Input.GetKeyDown(KeyCode.Z) && faceleft == false)
@@ -46,12 +51,14 @@ public class PlayerControll : MonoBehaviour {
             component.speedbullet = bullet_speed;
             component.location = gun_point.position;
             component.shoot_by_player = shoot;
+            AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
         }
 
         grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && grounded) {
 			jump = true;
+            AudioSource.PlayClipAtPoint(jump_sound, transform.position);
 		}
 
 		if (Input.GetKey (KeyCode.LeftArrow)) {
@@ -89,9 +96,11 @@ public class PlayerControll : MonoBehaviour {
     {
         if (coli.gameObject.tag == "Bullet_enemy")
         {
+            AudioSource.PlayClipAtPoint(get_hit, transform.position);
             hp--;
             if (hp <= 0)
             {
+                AudioSource.PlayClipAtPoint(die_sound, transform.position);
                 Destroy(gameObject);
             }
         }

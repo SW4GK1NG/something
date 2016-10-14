@@ -17,7 +17,10 @@ public class Enemy : MonoBehaviour {
     public float RayDistance;
     public float walk_speed;
     public Counter counter;
-    
+    public AudioClip shoot_sound;
+    public AudioClip die_sound;
+    public AudioClip get_hit;
+
     //For Debug
     public bool shooting;
     public bool flipping;
@@ -45,7 +48,6 @@ public class Enemy : MonoBehaviour {
             {
                 shooting = true;
                 InvokeRepeating("shoot", shoot_delay, shoot_speed);
-
             }
             walking = false;
             flip_fin = false;
@@ -82,9 +84,11 @@ public class Enemy : MonoBehaviour {
     {
         if (coli.gameObject.tag == "Bullet_go")
         {
+            AudioSource.PlayClipAtPoint(get_hit, transform.position);
             hp--;
             if (hp <= 0)
             {
+                AudioSource.PlayClipAtPoint(die_sound, transform.position);
                 counter = GameObject.FindObjectOfType<Counter>();
                 counter.addkill();
                 Destroy(gameObject);
@@ -100,6 +104,7 @@ public class Enemy : MonoBehaviour {
             Bullet component = x.GetComponent<Bullet>();
             component.speedbullet = bullet_speed * -1;
             component.location = gun_point.position;
+            AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
         }
         else
         {
@@ -107,6 +112,7 @@ public class Enemy : MonoBehaviour {
             Bullet component = x.GetComponent<Bullet>();
             component.speedbullet = bullet_speed;
             component.location = gun_point.position;
+            AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
         }
     }
 

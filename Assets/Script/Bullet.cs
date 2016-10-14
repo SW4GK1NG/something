@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour {
     public Vector3 location;
     public float speedbullet;
     public bool shoot_by_player = false;
+    public AudioClip hit;
 
 	// Use this for initialization
 	void Start () {
@@ -23,10 +24,12 @@ public class Bullet : MonoBehaviour {
     void OnTriggerEnter2D (Collider2D coli) {
         if (shoot_by_player == false && coli.gameObject.tag == ("Player"))
         {
+            AudioSource.PlayClipAtPoint(hit, transform.position);
             Destroy(gameObject);
         }
         if (shoot_by_player == true && coli.gameObject.tag == ("Enemy"))
         {
+            AudioSource.PlayClipAtPoint(hit, transform.position);
             Destroy(gameObject);
             shoot_by_player = false;
         }
