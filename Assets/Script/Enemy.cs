@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour {
             if (hp <= 0)
             {
                 counter = GameObject.FindObjectOfType<Counter>();
-                counter.kill++;
+                counter.addkill();
                 Destroy(gameObject);
             }
         }

@@ -7,7 +7,7 @@ public class PlayerControll : MonoBehaviour {
 	public bool jump = false;
     public bool grounded = false;
     public bool faceleft = true;
-    
+    public bool shoot = true;
 
     //For Cofig
     public float speed;
@@ -31,11 +31,12 @@ public class PlayerControll : MonoBehaviour {
 
 
         if (Input.GetKeyDown (KeyCode.Z) && faceleft == true)
-        {
+        {  
             GameObject x = Instantiate(Bullet);
             Bullet component = x.GetComponent<Bullet>();
             component.speedbullet = bullet_speed * -1;
             component.location = gun_point.position;
+            component.shoot_by_player = shoot;
             Rigidbody2D r = x.GetComponent<Rigidbody2D>();
         }
 
@@ -45,6 +46,7 @@ public class PlayerControll : MonoBehaviour {
             Bullet component = x.GetComponent<Bullet>();
             component.speedbullet = bullet_speed;
             component.location = gun_point.position;
+            component.shoot_by_player = shoot;
             Rigidbody2D rig = x.GetComponent<Rigidbody2D>();
         }
 
@@ -96,5 +98,4 @@ public class PlayerControll : MonoBehaviour {
             }
         }
     }
-
 }

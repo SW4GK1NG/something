@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     public PlayerControll m_controll;
     public Vector3 location;
     public float speedbullet;
+    public bool shoot_by_player = false;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,14 @@ public class Bullet : MonoBehaviour {
     }
 
     void OnTriggerEnter2D (Collider2D coli) {
-        Destroy(gameObject);
+        if (shoot_by_player == false && coli.gameObject.tag == ("Player"))
+        {
+            Destroy(gameObject);
+        }
+        if (shoot_by_player == true && coli.gameObject.tag == ("Enemy"))
+        {
+            Destroy(gameObject);
+            shoot_by_player = false;
+        }
     }
 }

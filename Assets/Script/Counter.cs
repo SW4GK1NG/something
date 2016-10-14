@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Counter : MonoBehaviour {
@@ -14,4 +15,14 @@ public class Counter : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void addkill()
+    {
+        kill++;
+
+        if (kill == 20)
+        {
+            SceneManager.LoadScene("Lv2");
+        }
+    }
 }
