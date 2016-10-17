@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerControll : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class PlayerControll : MonoBehaviour {
     public bool grounded = false;
     public bool faceleft = true;
     public bool shoot = true;
+    PlayButton componentlol;
 
     //For Cofig
     public float speed;
@@ -27,61 +29,66 @@ public class PlayerControll : MonoBehaviour {
     void Start () {
 		GroundCheck = transform.Find ("GroundCheck");
         gun_point = transform.Find ("GunPoint");
-	}
+        componentlol = GameObject.FindObjectOfType<PlayButton>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-
-
-
-        if (Input.GetKeyDown (KeyCode.Z) && faceleft == true)
-        {  
-            GameObject x = Instantiate(Bullet);
-            Bullet component = x.GetComponent<Bullet>();
-            component.speedbullet = bullet_speed * -1;
-            component.location = gun_point.position;
-            component.shoot_by_player = shoot;
-            AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z) && faceleft == false)
+        if (componentlol.gamestart == true)
         {
-            GameObject x = Instantiate(Bullet);
-            Bullet component = x.GetComponent<Bullet>();
-            component.speedbullet = bullet_speed;
-            component.location = gun_point.position;
-            component.shoot_by_player = shoot;
-            AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
-        }
+            if (Input.GetKeyDown(KeyCode.Z) && faceleft == true)
+            {
+                GameObject x = Instantiate(Bullet);
+                Bullet component = x.GetComponent<Bullet>();
+                component.speedbullet = bullet_speed * -1;
+                component.location = gun_point.position;
+                component.shoot_by_player = shoot;
+                AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
+            }
 
-        grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);
+            if (Input.GetKeyDown(KeyCode.Z) && faceleft == false)
+            {
+                GameObject x = Instantiate(Bullet);
+                Bullet component = x.GetComponent<Bullet>();
+                component.speedbullet = bullet_speed;
+                component.location = gun_point.position;
+                component.shoot_by_player = shoot;
+                AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
+            }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && grounded) {
-			jump = true;
-            AudioSource.PlayClipAtPoint(jump_sound, transform.position);
-		}
+            grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);
 
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			transform.position += Vector3.left * speed * Time.deltaTime;
-		}
+            if (Input.GetKeyDown(KeyCode.UpArrow) && grounded)
+            {
+                jump = true;
+                AudioSource.PlayClipAtPoint(jump_sound, transform.position);
+            }
 
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			transform.position += Vector3.right * speed * Time.deltaTime;
-		}
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.position += Vector3.left * speed * Time.deltaTime;
+            }
 
-		if (jump) {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, Jspeed));
-            jump = false;
-		}
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.position += Vector3.right * speed * Time.deltaTime;
+            }
 
-        if (Input.GetKey(KeyCode.LeftArrow) && faceleft == false)
-        {
-            Flip();
-        }
+            if (jump)
+            {
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, Jspeed));
+                jump = false;
+            }
 
-        if (Input.GetKey(KeyCode.RightArrow) && faceleft == true)
-        {
-            Flip();
+            if (Input.GetKey(KeyCode.LeftArrow) && faceleft == false)
+            {
+                Flip();
+            }
+
+            if (Input.GetKey(KeyCode.RightArrow) && faceleft == true)
+            {
+                Flip();
+            }
         }
     }
 
@@ -102,6 +109,7 @@ public class PlayerControll : MonoBehaviour {
             {
                 AudioSource.PlayClipAtPoint(die_sound, transform.position);
                 Destroy(gameObject);
+                SceneManager.LoadScene("die");
             }
         }
     }

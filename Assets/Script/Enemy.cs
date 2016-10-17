@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Enemy : MonoBehaviour {
 
@@ -27,7 +28,8 @@ public class Enemy : MonoBehaviour {
     public bool face_right;
     public int time_flip;
     public bool flip_fin;
-    public bool walking;
+    public bool walking = false;
+    public float one_or_two;
 
     // Use this for initialization
     void Start () {
@@ -75,8 +77,21 @@ public class Enemy : MonoBehaviour {
 
         if (flip_fin == true)
         {
+            if (walking == false)
+            {
+                randomflip();
+            }
             time_flip = 0;
             walk();
+        }
+    }
+
+    void randomflip()
+    {
+        one_or_two = UnityEngine.Random.Range(1, 3);
+        if (one_or_two == 1)
+        {
+            Flip();
         }
     }
 

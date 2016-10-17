@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayButton : MonoBehaviour {
 
+    public bool gamestart = false;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -17,5 +19,10 @@ public class PlayButton : MonoBehaviour {
     public void Go(string Scenename)
     {
         SceneManager.LoadScene(Scenename);
+    }
+
+    public void ok()
+    {
+        gamestart = true;
     }
 }

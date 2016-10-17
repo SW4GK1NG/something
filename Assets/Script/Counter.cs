@@ -5,9 +5,11 @@ using System.Collections;
 public class Counter : MonoBehaviour {
 
     public int kill;
+    public string nextlevel;
+    public int killcount;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -20,9 +22,9 @@ public class Counter : MonoBehaviour {
     {
         kill++;
 
-        if (kill == 20)
+        if (kill == killcount)
         {
-            SceneManager.LoadScene("Lv2");
+            SceneManager.LoadScene(nextlevel);
         }
     }
 }
