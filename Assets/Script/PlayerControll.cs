@@ -105,6 +105,7 @@ public class PlayerControll : MonoBehaviour {
         {
             AudioSource.PlayClipAtPoint(get_hit, transform.position);
             hp--;
+            Debug.Log(hp +" HP");
             if (hp <= 0)
             {
                 AudioSource.PlayClipAtPoint(die_sound, transform.position);

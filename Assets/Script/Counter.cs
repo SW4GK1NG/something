@@ -21,7 +21,7 @@ public class Counter : MonoBehaviour {
     public void addkill()
     {
         kill++;
-
+        Debug.Log(kill +" Kill");
         if (kill == killcount)
         {
             SceneManager.LoadScene(nextlevel);
