@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerControll : MonoBehaviour {
 
@@ -10,13 +11,18 @@ public class PlayerControll : MonoBehaviour {
     public bool faceleft = true;
     public bool shoot = true;
     PlayButton componentlol;
+    public int ammo;
+    public bool canshoot = true;
+    public bool startreload;
+
 
     //For Cofig
     public float speed;
     public float Jspeed;
-    public LayerMask Ground;
     public float bullet_speed;
     public int hp;
+    public float reloadtime;
+    public int ammomax = 12;
     public Transform gun_point;
     public GameObject Bullet;
     public Transform GroundCheck;
@@ -24,39 +30,71 @@ public class PlayerControll : MonoBehaviour {
     public AudioClip shoot_sound;
     public AudioClip die_sound;
     public AudioClip get_hit;
+    public AudioClip reload;
+    public LayerMask Ground;
+
+
 
     // Use this for initialization
     void Start () {
 		GroundCheck = transform.Find ("GroundCheck");
         gun_point = transform.Find ("GunPoint");
         componentlol = GameObject.FindObjectOfType<PlayButton>();
+        ammo = ammomax;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);
         if (componentlol.gamestart == true)
         {
-            if (Input.GetKeyDown(KeyCode.Z) && faceleft == true)
+            if (ammo == 0)
             {
-                GameObject x = Instantiate(Bullet);
-                Bullet component = x.GetComponent<Bullet>();
-                component.speedbullet = bullet_speed * -1;
-                component.location = gun_point.position;
-                component.shoot_by_player = shoot;
-                AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
+                if (startreload == false)
+                {
+                    AudioSource.PlayClipAtPoint(reload, transform.position);
+                }
+                startreload = true;
+                if (reloadtime >= 1.95f && canshoot == false)
+                {
+                    canshoot = true;
+                    ammo = ammomax;
+                    Debug.Log(ammo);
+                    reloadtime = 0;
+                    startreload = false;
+                }
+                else
+                {
+                    canshoot = false;
+                }
+                reloadtime = reloadtime + Time.deltaTime;
             }
 
-            if (Input.GetKeyDown(KeyCode.Z) && faceleft == false)
-            {
-                GameObject x = Instantiate(Bullet);
-                Bullet component = x.GetComponent<Bullet>();
-                component.speedbullet = bullet_speed;
-                component.location = gun_point.position;
-                component.shoot_by_player = shoot;
-                AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
-            }
+            if (ammo != 0 && canshoot == true) {
+                if (Input.GetKeyDown(KeyCode.Z) && faceleft == true)
+                {
+                    GameObject x = Instantiate(Bullet);
+                    Bullet component = x.GetComponent<Bullet>();
+                    component.speedbullet = bullet_speed * -1;
+                    component.location = gun_point.position;
+                    component.shoot_by_player = shoot;
+                    AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
+                    ammo--;
+                    Debug.Log(ammo);
+                }
 
-            grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);
+                if (Input.GetKeyDown(KeyCode.Z) && faceleft == false)
+                {
+                    GameObject x = Instantiate(Bullet);
+                    Bullet component = x.GetComponent<Bullet>();
+                    component.speedbullet = bullet_speed;
+                    component.location = gun_point.position;
+                    component.shoot_by_player = shoot;
+                    AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
+                    ammo--;
+                    Debug.Log(ammo);
+                }
+            }
 
             if (Input.GetKeyDown(KeyCode.UpArrow) && grounded)
             {
