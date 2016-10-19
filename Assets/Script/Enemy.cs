@@ -30,12 +30,14 @@ public class Enemy : MonoBehaviour {
     public bool flip_fin;
     public bool walking = false;
     public float one_or_two;
+    public float jumpornot;
 
     // Use this for initialization
     void Start () {
         gun_point = transform.Find("SANSDANCE");
         face_right = true;
         flip_fin = true;
+        InvokeRepeating("jump", 10, 10);
     }
 	
 	// Update is called once per frame
@@ -176,5 +178,14 @@ public class Enemy : MonoBehaviour {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+    
+    void jump ()
+    {
+        jumpornot = UnityEngine.Random.Range(1, 4);
+        if (jumpornot == 3)
+        {
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 500f));
+        }
     }
 }

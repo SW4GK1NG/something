@@ -43,6 +43,7 @@ public class PlayerControll : MonoBehaviour {
         gun_point = transform.Find ("GunPoint");
         componentlol = GameObject.FindObjectOfType<PlayButton>();
         ammo = ammomax;
+        canshoot = true;
     }
 	
 	// Update is called once per frame
