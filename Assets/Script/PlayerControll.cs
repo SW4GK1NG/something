@@ -14,7 +14,8 @@ public class PlayerControll : MonoBehaviour {
     public int ammo;
     public bool canshoot = true;
     public bool startreload;
-
+    public HPCounter HPcounter;
+    public AmmoCounter Ammocounter;
 
     //For Cofig
     public float speed;
@@ -22,7 +23,7 @@ public class PlayerControll : MonoBehaviour {
     public float bullet_speed;
     public int hp;
     public float reloadtime;
-    public int ammomax = 12;
+    public int ammomax;
     public Transform gun_point;
     public GameObject Bullet;
     public Transform GroundCheck;
@@ -32,6 +33,7 @@ public class PlayerControll : MonoBehaviour {
     public AudioClip get_hit;
     public AudioClip reload;
     public LayerMask Ground;
+    
 
 
 
@@ -45,6 +47,10 @@ public class PlayerControll : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        HPcounter = GameObject.FindObjectOfType<HPCounter>();
+        HPcounter.CurrentHP = hp;
+        Ammocounter = GameObject.FindObjectOfType<AmmoCounter>();
+        Ammocounter.CurrentAmmo = ammo;
         grounded = Physics2D.OverlapCircle(GroundCheck.position, 0.15f, Ground);
         if (componentlol.gamestart == true)
         {
