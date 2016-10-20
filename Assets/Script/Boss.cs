@@ -25,6 +25,7 @@ public class Boss : MonoBehaviour {
     public AudioClip shoot_sound;
     public AudioClip die_sound;
     public AudioClip get_hit;
+    public AudioClip angrysound;
 
     // Use this for initialization
     void Start() {
@@ -55,6 +56,7 @@ public class Boss : MonoBehaviour {
 
     void angry ()
     {
+        AudioSource.PlayClipAtPoint(angrysound, transform.position);
         InvokeRepeating("normalshoot", 1, 1);
         InvokeRepeating("shoot", 8, 8);
         InvokeRepeating("alert2", 6, 8);
