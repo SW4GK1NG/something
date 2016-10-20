@@ -24,6 +24,7 @@ public class PlayerControll : MonoBehaviour {
     public int hp;
     public float reloadtime;
     public int ammomax;
+    public string diescene;
     public Transform gun_point;
     public GameObject Bullet;
     public Transform GroundCheck;
@@ -155,7 +156,7 @@ public class PlayerControll : MonoBehaviour {
             {
                 AudioSource.PlayClipAtPoint(die_sound, transform.position);
                 Destroy(gameObject);
-                SceneManager.LoadScene("die");
+                SceneManager.LoadScene(diescene);
             }
         }
     }

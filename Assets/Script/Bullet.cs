@@ -33,5 +33,9 @@ public class Bullet : MonoBehaviour {
             Destroy(gameObject);
             shoot_by_player = false;
         }
+        if (coli.gameObject.tag == ("remove"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
