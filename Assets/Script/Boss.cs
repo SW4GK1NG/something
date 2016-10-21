@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour {
 
@@ -11,6 +12,11 @@ public class Boss : MonoBehaviour {
     public HPCounterBoss HPcounterboss;
     public alert warn;
     public string warntext;
+    public int maxhp;
+    public bool isAngry = false;
+    public bool canwalk = true;
+    public bool canshoot = true;
+    public bool dead = false;
 
     //For Cofig
     public float speed;
@@ -21,6 +27,7 @@ public class Boss : MonoBehaviour {
     public float jumpOrNot;
     public Transform gun_point;
     public GameObject Bullet;
+    public GameObject explode;
     public AudioClip jump_sound;
     public AudioClip shoot_sound;
     public AudioClip die_sound;
@@ -35,6 +42,7 @@ public class Boss : MonoBehaviour {
         InvokeRepeating("shoot", 10, 10);
         InvokeRepeating("alert", 6, 10);
         InvokeRepeating("jump", 3, 7);
+        maxhp = hp;
     }
 
     // Update is called once per frame
@@ -43,23 +51,40 @@ public class Boss : MonoBehaviour {
         HPcounterboss.CurrentHP = hp;
         if (componentlol.gamestart == true)
         {
-            walk();
+            if (canwalk == true)
+            {
+                walk();
+            }
         }
-        if (hp == 25)
+        if (hp == maxhp / 2)
+        {
+            angry();
+        }
+
+        if (canshoot == false)
         {
             CancelInvoke("shoot");
             CancelInvoke("alert");
             CancelInvoke("normalshoot");
-            angry();
         }
     }
 
     void angry ()
-    {
-        AudioSource.PlayClipAtPoint(angrysound, transform.position);
-        InvokeRepeating("normalshoot", 1, 1);
-        InvokeRepeating("shoot", 8, 8);
-        InvokeRepeating("alert2", 6, 8);
+    {  
+        if (isAngry == false)
+        {
+            for (int i = 0; i <= 5; i++)
+            {
+                AudioSource.PlayClipAtPoint(angrysound, transform.position);
+            }
+            CancelInvoke("normalshoot");
+            CancelInvoke("shoot");
+            CancelInvoke("alert");
+            InvokeRepeating("normalshoot", 1, 1);
+            InvokeRepeating("shoot", 8, 8);
+            InvokeRepeating("alert2", 6, 8);
+            isAngry = true;
+        }
     }
 
     void alert()
@@ -178,8 +203,14 @@ public class Boss : MonoBehaviour {
 
     IEnumerator shootcone ()
     {
+        CancelInvoke("normalshoot");
         for (int i = 0; i <= 6; i++)
         {
+
+            if (canshoot == false)
+            {
+                break;
+            }
             GameObject bullet1 = Instantiate(Bullet);
             BossBullet component1 = bullet1.GetComponent<BossBullet>();
             component1.speedbullet = bullet_speed * -1;
@@ -230,12 +261,25 @@ public class Boss : MonoBehaviour {
             AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
             yield return new WaitForSeconds(0.075f);
         }
+        if (hp <= maxhp / 2)
+        {
+            InvokeRepeating("normalshoot", 1, 1);
+        }
+        if (hp > maxhp / 2)
+        {
+            InvokeRepeating("normalshoot", 1, 3);
+        }
     }
 
     IEnumerator shootstraigh ()
     {
+        CancelInvoke("normalshoot");
         for (int i = 0; i <= 20; i++)
         {
+            if (canshoot == false)
+            {
+                break;
+            }
             GameObject bullet = Instantiate(Bullet);
             BossBullet component = bullet.GetComponent<BossBullet>();
             component.speedbullet = bullet_speed * -1;
@@ -262,12 +306,26 @@ public class Boss : MonoBehaviour {
             AudioSource.PlayClipAtPoint(shoot_sound, transform.position);
             yield return new WaitForSeconds(0.075f);
         }
+        if (hp <= maxhp / 2)
+        {
+            InvokeRepeating("normalshoot", 1, 1);
+        }
+        if (hp > maxhp / 2)
+        {
+            InvokeRepeating("normalshoot", 1, 3);
+        }
     }
 
     IEnumerator shootwave ()
     {
+        CancelInvoke("normalshoot");
         for (int i = 1; i <= 29; i++)
         {
+
+            if (canshoot == false)
+            {
+                break;
+            }
             if (i <= 5)
             {
                 GameObject bullet = Instantiate(Bullet);
@@ -366,6 +424,14 @@ public class Boss : MonoBehaviour {
                 yield return new WaitForSeconds(0.050f);
             }
         }
+        if (hp <= maxhp / 2)
+        {
+            InvokeRepeating("normalshoot", 1, 1);
+        }
+        if (hp > maxhp / 2)
+        {
+            InvokeRepeating("normalshoot", 1, 3);
+        }
     }
 
     void walk ()
@@ -397,8 +463,28 @@ public class Boss : MonoBehaviour {
             hp--;
             if (hp <= 0)
             {
-
+                if (dead == false)
+                {
+                    StartCoroutine(die());
+                }
             }
         }
+    }
+
+    IEnumerator die()
+    {
+        dead = true;
+        canwalk = false;
+        canshoot = false;
+        yield return new WaitForSeconds(1);
+        GameObject boom = Instantiate(explode);
+        Explosion component = explode.GetComponent<Explosion>();
+        component.location = transform.position;
+        for (int i = 0; i <= 5; i++)
+        {
+            AudioSource.PlayClipAtPoint(die_sound, transform.position);
+        }
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("End");
     }
 }

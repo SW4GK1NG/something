@@ -60,7 +60,10 @@ public class PlayerControll : MonoBehaviour {
             {
                 if (startreload == false)
                 {
-                    AudioSource.PlayClipAtPoint(reload, transform.position);
+                    for (int i = 0; i <= 5; i++)
+                    {
+                        AudioSource.PlayClipAtPoint(reload, transform.position);
+                    }
                 }
                 startreload = true;
                 if (reloadtime >= 1.95f && canshoot == false)
@@ -155,7 +158,6 @@ public class PlayerControll : MonoBehaviour {
             if (hp <= 0)
             {
                 AudioSource.PlayClipAtPoint(die_sound, transform.position);
-                Destroy(gameObject);
                 SceneManager.LoadScene(diescene);
             }
         }
