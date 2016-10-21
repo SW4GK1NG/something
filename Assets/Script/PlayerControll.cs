@@ -49,6 +49,12 @@ public class PlayerControll : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (hp <= 0)
+        {
+            AudioSource.PlayClipAtPoint(die_sound, transform.position);
+            SceneManager.LoadScene(diescene);
+        }
+
         HPcounter = GameObject.FindObjectOfType<HPCounter>();
         HPcounter.CurrentHP = hp;
         Ammocounter = GameObject.FindObjectOfType<AmmoCounter>();
@@ -154,12 +160,6 @@ public class PlayerControll : MonoBehaviour {
         {
             AudioSource.PlayClipAtPoint(get_hit, transform.position);
             hp--;
-            Debug.Log(hp +" HP");
-            if (hp <= 0)
-            {
-                AudioSource.PlayClipAtPoint(die_sound, transform.position);
-                SceneManager.LoadScene(diescene);
-            }
         }
     }
 }
