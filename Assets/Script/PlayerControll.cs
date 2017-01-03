@@ -87,6 +87,11 @@ public class PlayerControll : MonoBehaviour {
                 reloadtime = reloadtime + Time.deltaTime;
             }
 
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                ammo = 0;
+            }
+
             if (ammo != 0 && canshoot == true) {
                 if (Input.GetKeyDown(KeyCode.Z) && faceleft == true)
                 {
