@@ -81,8 +81,8 @@ public class Boss : MonoBehaviour {
             CancelInvoke("shoot");
             CancelInvoke("alert");
             InvokeRepeating("normalshoot", 1, 1);
-            InvokeRepeating("shoot", 8, 8);
-            InvokeRepeating("alert2", 6, 8);
+            InvokeRepeating("shoot", 7, 7);
+            InvokeRepeating("alert2", 5, 7);
             isAngry = true;
         }
     }
