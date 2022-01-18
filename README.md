@@ -13,7 +13,3 @@ Learn C# and Unity
 ### Contribution guidelines ###
 
 IDK LOL
-
-### Who do I talk to? ###
-
-Mail me at Derpy_Tomato@hotmail.com
